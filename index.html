@@ -80,13 +80,13 @@
 
       <div class="hero-meta">
         <div class="meta-item">
-          <span class="meta-num">3</span>
-          <span class="meta-label">שלבים</span>
+          <span class="meta-num">₪790</span>
+          <span class="meta-label">מחיר הקורס</span>
         </div>
         <div class="meta-divider"></div>
         <div class="meta-item">
-          <span class="meta-num">1</span>
-          <span class="meta-label">מפגש פיזי</span>
+          <span class="meta-num">3</span>
+          <span class="meta-label">שלבים</span>
         </div>
         <div class="meta-divider"></div>
         <div class="meta-item">
@@ -251,17 +251,71 @@
   <!-- ===== REGISTRATION FORM ===== -->
   <section class="register" id="register">
     <div class="container container-narrow">
+      <!-- CardCom status banner (shown when ?status=success/failed/cancel) -->
+      <div class="status-banner" id="statusBanner" hidden></div>
+
       <header class="section-head section-head-center">
-        <span class="eyebrow">הרשמה למחזור הקרוב</span>
-        <h2>השאר פרטים, אנחנו חוזרים אליך תוך 24 שעות</h2>
+        <span class="eyebrow">הרשמה ותשלום</span>
+        <h2>הירשם לקורס , ₪790 לכל מסלול הסמכה</h2>
         <p class="section-sub">
-          אנחנו פותחים מחזורים מעת לעת. ההרשמה לא מחייבת תשלום כעת ,
-          אחרי שתשלחו את הטופס נחזור אליכם עם פרטי המחזור, מועד הזום ותאריך המפגש הפרונטלי.
+          מלא פרטים, בחר קטגוריה ותאריך מבחן , תועבר לדף תשלום מאובטח של CardCom.
+          קבלה רשמית תישלח באימייל מיד עם השלמת התשלום.
         </p>
       </header>
 
+      <!-- Price card -->
+      <div class="price-card">
+        <div class="price-card-row">
+          <div class="price-card-label">קורס מלא + מבחן הסמכה</div>
+          <div class="price-card-amount">
+            <span class="price-currency">₪</span><span class="price-num">790</span>
+          </div>
+        </div>
+        <ul class="price-card-includes">
+          <li>שיעור תיאוריה בזום (5 שעות)</li>
+          <li>שיעור פרונטלי במוטור סיטי</li>
+          <li>מבחן הסמכה רשמי של ההתאחדות</li>
+          <li>ליווי מלא + טיפול במסמכים</li>
+          <li>תמיכה ב-WhatsApp לאורך התהליך</li>
+        </ul>
+        <p class="price-card-note">דמי רישום שנתיים של ההתאחדות (₪61) משולמים בנפרד ישירות לגוף המסמיך.</p>
+      </div>
+
       <form id="registerForm" class="form" novalidate>
         <div class="form-grid">
+          <div class="field field-wide">
+            <label for="category">קטגוריית רישיון</label>
+            <div class="select-wrap">
+              <select id="category" name="category" required>
+                <option value="">בחר קטגוריה...</option>
+                <option value="רכבים">רכבים</option>
+                <option value="אופנועים">אופנועים</option>
+                <option value="קארטינג">קארטינג</option>
+                <option value="רכבים + אופנועים">רכבים + אופנועים</option>
+                <option value="רכבים + קארטינג">רכבים + קארטינג</option>
+                <option value="אופנועים + קארטינג">אופנועים + קארטינג</option>
+                <option value="כל שלוש הקטגוריות">כל שלוש הקטגוריות</option>
+              </select>
+            </div>
+            <span class="field-error" data-for="category"></span>
+          </div>
+
+          <div class="field field-wide">
+            <label for="examDate">תאריך מבחן מועדף</label>
+            <div class="select-wrap">
+              <select id="examDate" name="examDate" required>
+                <option value="">בחר תאריך...</option>
+                <option value="25.05.2026">25.05.2026 , שני</option>
+                <option value="15.06.2026">15.06.2026 , שני</option>
+                <option value="09.07.2026">09.07.2026 , חמישי</option>
+                <option value="03.08.2026">03.08.2026 , שני</option>
+                <option value="02.09.2026">02.09.2026 , רביעי</option>
+                <option value="אין לי תאריך מועדף — תייעצו איתי">אין לי תאריך מועדף , תייעצו איתי</option>
+              </select>
+            </div>
+            <span class="field-error" data-for="examDate"></span>
+          </div>
+
           <div class="field">
             <label for="fullName">שם מלא</label>
             <input
@@ -289,7 +343,7 @@
           </div>
 
           <div class="field field-wide">
-            <label for="email">אימייל</label>
+            <label for="email">אימייל (לקבלת קבלה)</label>
             <input
               type="email"
               id="email"
@@ -334,13 +388,13 @@
 
         <div class="form-consent">
           <p>
-            לחיצה על "שלח הרשמה" מהווה אישור לכך שניצור איתך קשר בטלפון או אימייל
-            עם פרטי המחזור הקרוב. הפרטים נשמרים אצלנו בלבד.
+            לחיצה על "המשך לתשלום" מעבירה אותך לדף תשלום מאובטח של CardCom.
+            לאחר השלמת התשלום נצור איתך קשר עם פרטי המחזור הקרוב, מועד הזום ותאריך המפגש במוטור סיטי.
           </p>
         </div>
 
         <button type="submit" class="btn btn-primary btn-large" id="submitBtn">
-          <span class="btn-text">שלח הרשמה</span>
+          <span class="btn-text">המשך לתשלום , ₪790</span>
           <span class="btn-spinner" aria-hidden="true"></span>
         </button>
 

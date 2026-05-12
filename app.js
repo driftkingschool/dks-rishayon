@@ -1,15 +1,12 @@
 /* =====================================================
    DKS Sport Driving License Course — Landing Page Logic
-   - Validation
-   - Submit to Google Apps Script Web App (proxy to Google Form)
-   - Nav scroll behavior + mobile toggle
-   - Reveal animations
    ===================================================== */
 
 'use strict';
 
 const CONFIG = {
-  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxlZOG-IpkM85PUbLVKdE4mHWPWdhA10RFzbUMpu9eRywLPqoeE4ZKQTLsZLG1M1AOFiw/exec'
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxlZOG-IpkM85PUbLVKdE4mHWPWdhA10RFzbUMpu9eRywLPqoeE4ZKQTLsZLG1M1AOFiw/exec',
+  price: 790
 };
 
 /* ================= NAV ================= */
@@ -36,12 +33,57 @@ navMobile.querySelectorAll('a').forEach(a => {
   });
 });
 
+/* ================= STATUS BANNER (CardCom return) ================= */
+const STATUS_COPY = {
+  success: {
+    icon: '✓',
+    title: 'התשלום בוצע. ההרשמה אושרה.',
+    msg: 'קבלה רשמית נשלחה לאימייל. ניצור איתך קשר תוך 24 שעות עם פרטי המחזור הקרוב.',
+    cls: 'status-success'
+  },
+  failed: {
+    icon: '!',
+    title: 'התשלום לא הצליח.',
+    msg: 'אפשר לנסות שוב או לחייג 053-775-7323. ההרשמה לא נשמרה.',
+    cls: 'status-failed'
+  },
+  cancel: {
+    icon: 'i',
+    title: 'התשלום בוטל.',
+    msg: 'אפשר לחזור ולמלא את הטופס שוב. אם יש שאלה, חייג 053-775-7323.',
+    cls: 'status-cancel'
+  }
+};
+
+function showStatusBanner(status) {
+  const copy = STATUS_COPY[status];
+  if (!copy) return;
+  const el = document.getElementById('statusBanner');
+  el.className = 'status-banner ' + copy.cls;
+  el.hidden = false;
+  el.innerHTML = `<span class="status-icon" aria-hidden="true">${copy.icon}</span><div><h3>${copy.title}</h3><p>${copy.msg}</p></div>`;
+  if (status === 'success') {
+    // Hide the form on success
+    document.getElementById('registerForm').style.display = 'none';
+    document.querySelector('.price-card').style.display = 'none';
+  }
+}
+
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('status');
+  if (status && STATUS_COPY[status]) {
+    showStatusBanner(status);
+    window.scrollTo({ top: document.getElementById('register').offsetTop - 100, behavior: 'instant' });
+  }
+})();
+
 /* ================= FORM ================= */
 const form = document.getElementById('registerForm');
 const submitBtn = document.getElementById('submitBtn');
 const feedback = document.getElementById('formFeedback');
 
-const FIELDS = ['fullName', 'birthDate', 'email', 'idNumber', 'phone'];
+const FIELDS = ['fullName', 'birthDate', 'email', 'idNumber', 'phone', 'category', 'examDate'];
 
 function setErr(name, msg) {
   const input = form.querySelector(`[name="${name}"]`);
@@ -102,11 +144,20 @@ function validate(values) {
     ok = false;
   }
 
+  if (!values.category) {
+    errs.category = 'בחר קטגוריה';
+    ok = false;
+  }
+
+  if (!values.examDate) {
+    errs.examDate = 'בחר תאריך מבחן';
+    ok = false;
+  }
+
   return { ok, errs };
 }
 
 function isValidIsraeliId(id) {
-  // Standard Israeli ID checksum (Luhn-like, base 10)
   if (!/^\d{9}$/.test(id)) return false;
   let sum = 0;
   for (let i = 0; i < 9; i++) {
@@ -136,7 +187,9 @@ form.addEventListener('submit', async e => {
     birthDate: (fd.get('birthDate') || '').toString().trim(),
     email: (fd.get('email') || '').toString().trim(),
     idNumber: (fd.get('idNumber') || '').toString().trim(),
-    phone: (fd.get('phone') || '').toString().trim()
+    phone: (fd.get('phone') || '').toString().trim(),
+    category: (fd.get('category') || '').toString().trim(),
+    examDate: (fd.get('examDate') || '').toString().trim()
   };
 
   const v = validate(values);
@@ -158,7 +211,9 @@ form.addEventListener('submit', async e => {
     birthDay: day,
     email: values.email,
     idNumber: values.idNumber,
-    phone: values.phone
+    phone: values.phone,
+    category: values.category,
+    examDate: values.examDate
   };
 
   submitBtn.disabled = true;
@@ -167,30 +222,32 @@ form.addEventListener('submit', async e => {
   try {
     const res = await fetch(CONFIG.appsScriptUrl, {
       method: 'POST',
-      // Apps Script Web App accepts text/plain to avoid CORS preflight issues
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
       redirect: 'follow'
     });
     const data = await res.json();
 
-    if (data.ok) {
-      form.style.display = 'none';
+    if (data.ok && data.paymentReady && data.lpUrl) {
+      setFeedback('success', 'מעביר לדף תשלום מאובטח...');
+      // Brief delay so the user sees the success message before the redirect
+      setTimeout(() => { window.location.href = data.lpUrl; }, 600);
+    } else if (data.ok && data.saved) {
+      // Form saved but payment link couldn't be created — fallback
       setFeedback('success',
-        'תודה! ההרשמה נקלטה. ניצור איתך קשר תוך 24 שעות עם פרטי המחזור הקרוב. אם זה דחוף — 053-775-7323.'
+        (data.message || 'ההרשמה נקלטה. ניצור איתך קשר תוך 24 שעות.') + ' לפרטים: 053-775-7323.'
       );
-      window.scrollTo({ top: feedback.offsetTop - 120, behavior: 'smooth' });
+      submitBtn.disabled = false;
+      submitBtn.dataset.state = '';
     } else {
       setFeedback('error',
-        (data.error || 'משהו השתבש') + ' — נסה שוב או חייג 053-775-7323.'
+        (data.error || 'משהו השתבש') + ' , נסה שוב או חייג 053-775-7323.'
       );
       submitBtn.disabled = false;
       submitBtn.dataset.state = '';
     }
   } catch (err) {
-    setFeedback('error',
-      'בעיית רשת. נסה שוב או חייג 053-775-7323.'
-    );
+    setFeedback('error', 'בעיית רשת. נסה שוב או חייג 053-775-7323.');
     submitBtn.disabled = false;
     submitBtn.dataset.state = '';
   }
@@ -199,7 +256,10 @@ form.addEventListener('submit', async e => {
 // Clear error on input
 FIELDS.forEach(name => {
   const el = form.querySelector(`[name="${name}"]`);
-  if (el) el.addEventListener('input', () => setErr(name, ''));
+  if (el) {
+    const evt = (el.tagName === 'SELECT') ? 'change' : 'input';
+    el.addEventListener(evt, () => setErr(name, ''));
+  }
 });
 
 /* ================= REVEAL ================= */
@@ -220,7 +280,6 @@ if ('IntersectionObserver' in window) {
 }
 
 /* ================= BIRTH DATE MAX ================= */
-// Set max attribute to today minus 18 years on date input
 const birthDateEl = document.getElementById('birthDate');
 if (birthDateEl) {
   const today = new Date();

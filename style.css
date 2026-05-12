@@ -841,6 +841,209 @@ input, textarea, select {
   background: linear-gradient(180deg, var(--c-cream-2) 0%, var(--c-light) 100%);
 }
 
+/* ===== STATUS BANNER (CardCom return) ===== */
+.status-banner {
+  margin-bottom: 40px;
+  padding: 24px 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  font-size: 16px;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.status-banner[hidden] { display: none; }
+
+.status-banner.status-success {
+  background: rgba(120, 140, 93, 0.10);
+  border-color: rgba(120, 140, 93, 0.3);
+  color: #4d5b3e;
+}
+
+.status-banner.status-failed,
+.status-banner.status-cancel {
+  background: rgba(177, 67, 42, 0.08);
+  border-color: rgba(177, 67, 42, 0.3);
+  color: var(--c-error);
+}
+
+.status-banner h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.status-banner p {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.status-banner .status-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== PRICE CARD ===== */
+.price-card {
+  background: var(--c-dark);
+  color: var(--c-light);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 4vw, 40px);
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 60%;
+  height: 180%;
+  background: radial-gradient(circle, rgba(217, 119, 87, 0.20), transparent 60%);
+  pointer-events: none;
+}
+
+.price-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.price-card-label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 24px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--c-light);
+}
+
+.price-card-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--c-accent);
+}
+
+.price-currency {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.price-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(48px, 7vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.price-card-includes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.price-card-includes li {
+  position: relative;
+  padding-right: 22px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(250, 249, 245, 0.85);
+}
+
+.price-card-includes li::before {
+  content: '✓';
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--c-accent);
+  font-weight: 700;
+}
+
+.price-card-note {
+  font-size: 13px;
+  color: rgba(250, 249, 245, 0.55);
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  padding-top: 16px;
+  border-top: 1px solid rgba(250, 249, 245, 0.08);
+}
+
+/* ===== SELECT (custom-styled native select) ===== */
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--c-text-soft);
+  border-bottom: 2px solid var(--c-text-soft);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.select-wrap select {
+  width: 100%;
+  padding: 14px 16px;
+  padding-left: 42px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--c-light);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.select-wrap select:hover {
+  border-color: var(--c-text-soft);
+}
+
+.select-wrap select:focus {
+  outline: none;
+  border-color: var(--c-dark);
+  box-shadow: 0 0 0 4px rgba(20, 20, 19, 0.08);
+}
+
+.select-wrap select[aria-invalid="true"] {
+  border-color: var(--c-error);
+}
+
 .form {
   background: var(--c-light);
   border: 1px solid var(--c-line);
@@ -1123,6 +1326,8 @@ input, textarea, select {
   .form-grid { grid-template-columns: 1fr; gap: 16px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { font-size: 12px; }
+  .price-card-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .price-card-includes { grid-template-columns: 1fr; }
 }
 
 /* ===== REVEAL ANIMATIONS ===== */
