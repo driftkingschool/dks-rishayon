@@ -52,7 +52,11 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="hero-fallback.jpg" aria-hidden="true">
+      <source src="hero-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
 
     <div class="hero-inner">
       <div class="hero-kicker">
@@ -67,7 +71,7 @@
 
       <p class="hero-lead">
         הקורס הרשמי שפותח לך את הדלת לתחרויות, ימי מסלול רשמיים וביטוח ספורטיבי.
-        שיעור בזום, שיעור פרונטלי אחד במוטור סיטי, ומבחן , והרישיון שלך.
+        שיעור בזום, שיעור פרונטלי במוטור סיטי, בדיקות רפואיות, ומבחן , והרישיון שלך.
       </p>
 
       <div class="hero-cta">
@@ -85,7 +89,7 @@
         </div>
         <div class="meta-divider"></div>
         <div class="meta-item">
-          <span class="meta-num">3</span>
+          <span class="meta-num">4</span>
           <span class="meta-label">שלבים</span>
         </div>
         <div class="meta-divider"></div>
@@ -150,7 +154,7 @@
     <div class="container">
       <header class="section-head">
         <span class="eyebrow">מבנה הקורס</span>
-        <h2>שלושה שלבים. רישיון לכל החיים.</h2>
+        <h2>ארבעה שלבים. רישיון לכל החיים.</h2>
       </header>
 
       <div class="how-steps">
@@ -159,7 +163,7 @@
           <div class="step-body">
             <div class="step-tag">מרחוק</div>
             <h3>שיעור בזום</h3>
-            <p>תיאוריה, תקנון ההתאחדות, בטיחות, פגלים והכרת מקצי תחרות. מהבית, בשעה נוחה.</p>
+            <p>תיאוריה, תקנון ההתאחדות, בטיחות, דגלים והכרת מקצי תחרות. מהבית, בשעה נוחה.</p>
             <ul class="step-details">
               <li>סשן חי עם מדריך מוסמך</li>
               <li>חומר כתוב לתרגול עצמי</li>
@@ -173,7 +177,7 @@
           <div class="step-body">
             <div class="step-tag">במוטור סיטי</div>
             <h3>שיעור פרונטלי</h3>
-            <p>מפגש אחד פיזי במוטור סיטי , טכניקות, סימולציות, היכרות עם המסלול וצוות הקורס.</p>
+            <p>מפגש פיזי במוטור סיטי , טכניקות, סימולציות, היכרות עם המסלול וצוות הקורס.</p>
             <ul class="step-details">
               <li>שיעור מעשי במתקני המסלול</li>
               <li>הכרות עם דגלים וסיגנלים</li>
@@ -184,6 +188,20 @@
 
         <article class="step">
           <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-tag">מרפאת ספורט</div>
+            <h3>בדיקות רפואיות</h3>
+            <p>בדיקות חובה במרפאה המתמחה ברפואת ספורט , תנאי הסף של ההתאחדות לקבלת הרישיון.</p>
+            <ul class="step-details">
+              <li>בדיקת ארגומטריה (מאמץ לב-ריאה)</li>
+              <li>בדיקת ראייה אצל אופטומטריסט</li>
+              <li>אישור רופא מוסמך לספורט</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-num">04</div>
           <div class="step-body">
             <div class="step-tag">מבחן</div>
             <h3>מבחן הסמכה</h3>
@@ -414,11 +432,21 @@
       <div class="faq-list">
         <details class="faq-item">
           <summary>
-            <span>כמה עולה הקורס?</span>
+            <span>כמה עולה הקורס ומה כלול?</span>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           <div class="faq-body">
-            <p>אחרי שתשלחו את הטופס נחזור אליכם עם הצעת מחיר מותאמת למחזור הקרוב. המחיר כולל את הקורס המלא, חומרי הלימוד, השיעור הפרונטלי במוטור סיטי והמבחן.</p>
+            <p>הקורס עולה ₪790 והוא כולל: שיעור תיאוריה בזום, שיעור פרונטלי במוטור סיטי, מבחן הסמכה רשמי, ליווי מלא בטיפול במסמכים ותמיכה ב-WhatsApp לאורך התהליך. דמי הרישום השנתיים של ההתאחדות (₪61) והבדיקות הרפואיות משולמים בנפרד ישירות לגופים המסמיכים.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span>מה כוללות הבדיקות הרפואיות?</span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+          </summary>
+          <div class="faq-body">
+            <p>הבדיקות מתבצעות במרפאה המתמחה ברפואת ספורט והן תנאי סף לקבלת הרישיון מההתאחדות: בדיקת ארגומטריה (מבחן מאמץ לב-ריאה), בדיקת ראייה אצל אופטומטריסט, ואישור רופא מוסמך לספורט. אנחנו מפנים אותך למרפאה מומלצת ומלווים בתיק המסמכים.</p>
           </div>
         </details>
 
