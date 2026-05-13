@@ -116,8 +116,8 @@ function validate(values) {
       ok = false;
     } else {
       const age = (now - d) / (1000 * 60 * 60 * 24 * 365.25);
-      if (age < 18) {
-        errs.birthDate = 'הקורס מחייב גיל 18 ומעלה';
+      if (age < 14) {
+        errs.birthDate = 'הקורס מחייב גיל 14 ומעלה';
         ok = false;
       } else if (age > 100) {
         errs.birthDate = 'תאריך לידה לא תקין';
@@ -283,7 +283,7 @@ if ('IntersectionObserver' in window) {
 const birthDateEl = document.getElementById('birthDate');
 if (birthDateEl) {
   const today = new Date();
-  const max = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  const max = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
   birthDateEl.max = max.toISOString().split('T')[0];
   const min = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
   birthDateEl.min = min.toISOString().split('T')[0];
