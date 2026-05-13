@@ -617,24 +617,31 @@ function initHyperspeed(container, userOptions = {}) {
 }
 
 // ----- Wiring: viewport-gated init + reduced-motion + mobile guard -----
+// Supports multiple containers: #hyperspeed OR any element with [data-hyperspeed]
 
-const container = document.getElementById('hyperspeed');
-if (container) {
+const containers = new Set([
+  ...document.querySelectorAll('#hyperspeed'),
+  ...document.querySelectorAll('[data-hyperspeed]')
+]);
+
+if (containers.size) {
   const isMobile = window.matchMedia('(max-width: 640px)').matches;
   const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && !isMobile) {
-    let app = null;
+    const apps = new WeakMap();
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting && !app) {
-          app = initHyperspeed(container);
-        } else if (!e.isIntersecting && app) {
-          app.dispose();
-          app = null;
+        if (e.isIntersecting && !apps.has(e.target)) {
+          apps.set(e.target, initHyperspeed(e.target));
+        } else if (!e.isIntersecting && apps.has(e.target)) {
+          apps.get(e.target).dispose();
+          apps.delete(e.target);
         }
       });
     }, { rootMargin: '200px 0px' });
-    io.observe(container);
-    window.addEventListener('beforeunload', () => { app?.dispose(); });
+    containers.forEach(c => io.observe(c));
+    window.addEventListener('beforeunload', () => {
+      containers.forEach(c => { apps.get(c)?.dispose(); apps.delete(c); });
+    });
   }
 }

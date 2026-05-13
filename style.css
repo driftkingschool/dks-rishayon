@@ -743,10 +743,41 @@ input, textarea, select {
 
 .step-highlight .step-details li { color: rgba(250, 249, 245, 0.7); }
 
-/* ===== FOR-WHO SECTION ===== */
+/* ===== FOR-WHO SECTION (dark with hyperspeed bg) ===== */
 .for-who {
   padding: var(--section-gap) 0;
-  background: var(--c-light);
+  background: var(--c-dark);
+  color: var(--c-light);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.for-who-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.for-who-bg canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.for-who-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--c-dark) 0%, rgba(20, 20, 19, 0.55) 18%, rgba(20, 20, 19, 0.55) 82%, var(--c-dark) 100%),
+    radial-gradient(70% 60% at 100% 50%, rgba(20, 20, 19, 0.85), transparent 70%);
+}
+
+.for-who .container {
+  position: relative;
+  z-index: 2;
 }
 
 .who-grid {
@@ -758,6 +789,7 @@ input, textarea, select {
 
 .who-text .eyebrow {
   margin-bottom: 16px;
+  color: var(--c-accent);
 }
 
 .who-text h2 {
@@ -766,14 +798,15 @@ input, textarea, select {
   font-size: clamp(28px, 4vw, 44px);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--c-dark);
+  color: var(--c-light);
   margin-bottom: 24px;
+  text-shadow: 0 2px 16px rgba(20, 20, 19, 0.5);
 }
 
 .who-intro {
   font-size: 17px;
   line-height: 1.7;
-  color: var(--c-text-soft);
+  color: rgba(250, 249, 245, 0.78);
   margin-bottom: 32px;
 }
 
@@ -795,8 +828,9 @@ input, textarea, select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--c-accent-soft);
+  background: rgba(217, 119, 87, 0.18);
   color: var(--c-accent);
+  border: 1px solid rgba(217, 119, 87, 0.4);
   border-radius: 8px;
   font-weight: 700;
   font-size: 14px;
@@ -805,12 +839,12 @@ input, textarea, select {
 .who-item div:last-child {
   font-size: 16px;
   line-height: 1.55;
-  color: var(--c-text);
+  color: rgba(250, 249, 245, 0.88);
 }
 
 .who-item strong {
   font-weight: 600;
-  color: var(--c-dark);
+  color: var(--c-light);
 }
 
 .who-visual {
@@ -832,9 +866,11 @@ input, textarea, select {
   top: 0;
   right: 0;
   width: 240px;
-  background: var(--c-dark);
+  background: rgba(20, 20, 19, 0.85);
   color: var(--c-light);
-  border-color: var(--c-dark);
+  border-color: rgba(250, 249, 245, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transform: rotate(-3deg);
 }
 
