@@ -1038,6 +1038,51 @@ input, textarea, select {
   border-top: 1px solid rgba(250, 249, 245, 0.08);
 }
 
+/* ===== CATEGORY CARD (fixed value, no select) ===== */
+.category-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  background: linear-gradient(95deg, rgba(217, 119, 87, 0.10) 0%, rgba(217, 119, 87, 0.04) 100%);
+  border: 1px solid rgba(217, 119, 87, 0.25);
+  border-radius: var(--radius-md);
+}
+
+.category-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-light);
+  color: var(--c-accent);
+  border-radius: 12px;
+  border: 1px solid rgba(217, 119, 87, 0.2);
+}
+
+.category-text { flex: 1; }
+
+.category-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  margin-bottom: 4px;
+}
+
+.category-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--c-dark);
+  letter-spacing: -0.01em;
+}
+
 /* ===== SELECT (custom-styled native select) ===== */
 .select-wrap {
   position: relative;

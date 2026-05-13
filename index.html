@@ -297,24 +297,21 @@
       </div>
 
       <form id="registerForm" class="form" novalidate>
-        <div class="form-grid">
-          <div class="field field-wide">
-            <label for="category">קטגוריית רישיון</label>
-            <div class="select-wrap">
-              <select id="category" name="category" required>
-                <option value="">בחר קטגוריה...</option>
-                <option value="רכבים">רכבים</option>
-                <option value="אופנועים">אופנועים</option>
-                <option value="קארטינג">קארטינג</option>
-                <option value="רכבים + אופנועים">רכבים + אופנועים</option>
-                <option value="רכבים + קארטינג">רכבים + קארטינג</option>
-                <option value="אופנועים + קארטינג">אופנועים + קארטינג</option>
-                <option value="כל שלוש הקטגוריות">כל שלוש הקטגוריות</option>
-              </select>
-            </div>
-            <span class="field-error" data-for="category"></span>
+        <div class="category-card">
+          <div class="category-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="24" height="24">
+              <path d="M5 13l1.5-4.5A2 2 0 0 1 8.4 7h7.2a2 2 0 0 1 1.9 1.5L19 13M5 13h14v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-4z" />
+              <circle cx="7.5" cy="15.5" r="0.8" fill="currentColor" />
+              <circle cx="16.5" cy="15.5" r="0.8" fill="currentColor" />
+            </svg>
           </div>
+          <div class="category-text">
+            <div class="category-eyebrow">קטגוריית הרישיון</div>
+            <div class="category-title">רישיון לנהיגה ספורטיבית ברכב</div>
+          </div>
+        </div>
 
+        <div class="form-grid">
           <div class="field field-wide">
             <label for="examDate">תאריך מבחן מועדף</label>
             <div class="select-wrap">

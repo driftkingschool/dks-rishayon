@@ -83,7 +83,10 @@ const form = document.getElementById('registerForm');
 const submitBtn = document.getElementById('submitBtn');
 const feedback = document.getElementById('formFeedback');
 
-const FIELDS = ['fullName', 'birthDate', 'email', 'idNumber', 'phone', 'category', 'examDate'];
+const FIELDS = ['fullName', 'birthDate', 'email', 'idNumber', 'phone', 'examDate'];
+// Category is fixed for this LP — only "רכבים" is offered, so we hardcode the value
+// (server-side whitelist in Apps Script still validates it).
+const FIXED_CATEGORY = 'רכבים';
 
 function setErr(name, msg) {
   const input = form.querySelector(`[name="${name}"]`);
@@ -144,11 +147,6 @@ function validate(values) {
     ok = false;
   }
 
-  if (!values.category) {
-    errs.category = 'בחר קטגוריה';
-    ok = false;
-  }
-
   if (!values.examDate) {
     errs.examDate = 'בחר תאריך מבחן';
     ok = false;
@@ -188,7 +186,6 @@ form.addEventListener('submit', async e => {
     email: (fd.get('email') || '').toString().trim(),
     idNumber: (fd.get('idNumber') || '').toString().trim(),
     phone: (fd.get('phone') || '').toString().trim(),
-    category: (fd.get('category') || '').toString().trim(),
     examDate: (fd.get('examDate') || '').toString().trim()
   };
 
@@ -212,7 +209,7 @@ form.addEventListener('submit', async e => {
     email: values.email,
     idNumber: values.idNumber,
     phone: values.phone,
-    category: values.category,
+    category: FIXED_CATEGORY,
     examDate: values.examDate
   };
 
