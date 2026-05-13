@@ -259,35 +259,20 @@ input, textarea, select {
   align-items: center;
   gap: 10px;
   font-weight: 700;
+  text-decoration: none;
 }
 
-.logo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--c-dark);
-  color: var(--c-light);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.04em;
-  border-radius: 10px;
+.logo-img {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 
-.logo-sep {
-  width: 1px;
-  height: 18px;
-  background: var(--c-line-strong);
-}
-
-.logo-text {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.18em;
-  color: var(--c-dark);
+.nav-logo:hover .logo-img {
+  opacity: 0.85;
 }
 
 .nav-links {
@@ -1290,19 +1275,16 @@ input, textarea, select {
   margin-bottom: 56px;
 }
 
-.footer-brand .logo-mark {
-  background: var(--c-accent);
-  color: var(--c-dark);
-}
-
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
   margin-bottom: 20px;
 }
 
-.footer-logo .logo-text { color: var(--c-light); }
+.logo-img-footer {
+  height: 56px;
+  max-width: 240px;
+}
 
 .footer-tag {
   font-size: 15px;
