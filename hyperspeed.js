@@ -629,19 +629,30 @@ if (containers.size) {
   const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && !isMobile) {
     const apps = new WeakMap();
+    function spawn(el) {
+      if (apps.has(el)) return;
+      apps.set(el, initHyperspeed(el));
+    }
+    function kill(el) {
+      if (!apps.has(el)) return;
+      apps.get(el).dispose();
+      apps.delete(el);
+    }
+    // Fallback: if IO doesn't deliver within 800ms, init unconditionally.
+    let ioDelivered = false;
+    setTimeout(() => {
+      if (!ioDelivered) containers.forEach(spawn);
+    }, 800);
     const io = new IntersectionObserver(entries => {
+      ioDelivered = true;
       entries.forEach(e => {
-        if (e.isIntersecting && !apps.has(e.target)) {
-          apps.set(e.target, initHyperspeed(e.target));
-        } else if (!e.isIntersecting && apps.has(e.target)) {
-          apps.get(e.target).dispose();
-          apps.delete(e.target);
-        }
+        if (e.isIntersecting) spawn(e.target);
+        else kill(e.target);
       });
     }, { rootMargin: '200px 0px' });
     containers.forEach(c => io.observe(c));
     window.addEventListener('beforeunload', () => {
-      containers.forEach(c => { apps.get(c)?.dispose(); apps.delete(c); });
+      containers.forEach(kill);
     });
   }
 }
