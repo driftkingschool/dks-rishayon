@@ -27,7 +27,7 @@
       <nav class="nav-links" aria-label="ניווט ראשי">
         <a href="https://driftkingschool.github.io/">חוויות</a>
         <a href="https://driftkingschool.github.io/dks-courses/">קורסים</a>
-        <a href="https://driftkingschool.github.io/track-day-may-2026/">ימי מסלול</a>
+        <a href="https://driftkingschool.github.io/track-days/">ימי מסלול</a>
         <a href="https://driftkingschool.github.io/dks-rentals/">תחרויות</a>
         <a href="https://driftkingschool.github.io/dks-bangkok/">בנגקוק</a>
         <a href="#hero" class="nav-current" aria-current="page">רישיון ספורטיבי</a>
@@ -41,7 +41,7 @@
     <div class="nav-mobile" id="navMobile">
       <a href="https://driftkingschool.github.io/">חוויות</a>
       <a href="https://driftkingschool.github.io/dks-courses/">קורסים</a>
-      <a href="https://driftkingschool.github.io/track-day-may-2026/">ימי מסלול</a>
+      <a href="https://driftkingschool.github.io/track-days/">ימי מסלול</a>
       <a href="https://driftkingschool.github.io/dks-rentals/">תחרויות</a>
       <a href="https://driftkingschool.github.io/dks-bangkok/">בנגקוק</a>
       <a href="#hero" class="nav-current">רישיון ספורטיבי</a>
@@ -330,8 +330,6 @@
             <div class="select-wrap">
               <select id="examDate" name="examDate" required>
                 <option value="">בחר תאריך...</option>
-                <option value="25.05.2026">25.05.2026 , שני</option>
-                <option value="15.06.2026">15.06.2026 , שני</option>
                 <option value="09.07.2026">09.07.2026 , חמישי</option>
                 <option value="03.08.2026">03.08.2026 , שני</option>
                 <option value="02.09.2026">02.09.2026 , רביעי</option>
@@ -525,7 +523,7 @@
           <h4>אתר הראשי</h4>
           <a href="https://driftkingschool.github.io/">חוויות</a>
           <a href="https://driftkingschool.github.io/dks-courses/">קורסים</a>
-          <a href="https://driftkingschool.github.io/track-day-may-2026/">ימי מסלול</a>
+          <a href="https://driftkingschool.github.io/track-days/">ימי מסלול</a>
           <a href="https://driftkingschool.github.io/dks-rentals/">תחרויות השכרה</a>
           <a href="https://driftkingschool.github.io/dks-bangkok/">בנגקוק</a>
         </nav>
@@ -553,7 +551,8 @@
   </footer>
 
   <script src="app.js"></script>
-  <script type="module" src="hyperspeed.js"></script>
-  <script type="module" src="lightrays.js"></script>
+  <!-- Self-hosted bundles (three + postprocessing + ogl vendored via esbuild) — no external CDN -->
+  <script type="module" src="hyperspeed.bundle.js"></script>
+  <script type="module" src="lightrays.bundle.js"></script>
 </body>
 </html>
