@@ -1,5 +1,5 @@
 /* =====================================================
-   DKS Sport Driving License Course — Landing Page Logic
+   DKS Sport Driving License Course - Landing Page Logic
    ===================================================== */
 
 'use strict';
@@ -56,12 +56,12 @@ const STATUS_COPY = {
 };
 
 function showStatusBanner(status) {
-  const copy = STATUS_COPY[status];
+  const copy = Object.prototype.hasOwnProperty.call(STATUS_COPY, status) ? STATUS_COPY[status] : null;
   if (!copy) return;
   const el = document.getElementById('statusBanner');
   el.className = 'status-banner ' + copy.cls;
   el.hidden = false;
-  el.innerHTML = `<span class="status-icon" aria-hidden="true">${copy.icon}</span><div><h3>${copy.title}</h3><p>${copy.msg}</p></div>`;
+  el.innerHTML = `<span class="status-icon" aria-hidden="true">${copy.icon}</span><div><h2>${copy.title}</h2><p>${copy.msg}</p></div>`;
   if (status === 'success') {
     // Hide the form on success
     document.getElementById('registerForm').style.display = 'none';
@@ -72,7 +72,7 @@ function showStatusBanner(status) {
 (() => {
   const params = new URLSearchParams(window.location.search);
   const status = params.get('status');
-  if (status && STATUS_COPY[status]) {
+  if (status && Object.prototype.hasOwnProperty.call(STATUS_COPY, status)) {
     showStatusBanner(status);
     window.scrollTo({ top: document.getElementById('register').offsetTop - 100, behavior: 'instant' });
   }
@@ -84,7 +84,7 @@ const submitBtn = document.getElementById('submitBtn');
 const feedback = document.getElementById('formFeedback');
 
 const FIELDS = ['fullName', 'birthDate', 'email', 'idNumber', 'phone', 'examDate'];
-// Category is fixed for this LP — only "רכבים" is offered, so we hardcode the value
+// Category is fixed for this LP - only "רכבים" is offered, so we hardcode the value
 // (server-side whitelist in Apps Script still validates it).
 const FIXED_CATEGORY = 'רכבים';
 
@@ -143,7 +143,7 @@ function validate(values) {
   }
 
   if (!values.phone || !/^05\d{8}$/.test(values.phone)) {
-    errs.phone = 'טלפון חייב להיות 10 ספרות שמתחילים ב-05';
+    errs.phone = 'מספר טלפון חייב להיות 10 ספרות שמתחילות ב-05';
     ok = false;
   }
 
@@ -210,7 +210,8 @@ form.addEventListener('submit', async e => {
     idNumber: values.idNumber,
     phone: values.phone,
     category: FIXED_CATEGORY,
-    examDate: values.examDate
+    examDate: values.examDate,
+    website: (fd.get('website') || '').toString() // honeypot - empty for humans
   };
 
   submitBtn.disabled = true;
@@ -226,11 +227,11 @@ form.addEventListener('submit', async e => {
     const data = await res.json();
 
     if (data.ok && data.paymentReady && data.lpUrl) {
-      setFeedback('success', 'מעביר לדף תשלום מאובטח...');
+      setFeedback('success', 'מעבירים אותך לדף התשלום המאובטח...');
       // Brief delay so the user sees the success message before the redirect
       setTimeout(() => { window.location.href = data.lpUrl; }, 600);
     } else if (data.ok && data.saved) {
-      // Form saved but payment link couldn't be created — fallback
+      // Form saved but payment link couldn't be created - fallback
       setFeedback('success',
         (data.message || 'ההרשמה נקלטה. ניצור איתך קשר תוך 24 שעות.') + ' לפרטים: 053-775-7323.'
       );
@@ -238,7 +239,7 @@ form.addEventListener('submit', async e => {
       submitBtn.dataset.state = '';
     } else {
       setFeedback('error',
-        (data.error || 'משהו השתבש') + ' , נסה שוב או חייג 053-775-7323.'
+        (data.error || 'משהו השתבש') + ' - נסה שוב או חייג 053-775-7323.'
       );
       submitBtn.disabled = false;
       submitBtn.dataset.state = '';
@@ -275,6 +276,43 @@ if ('IntersectionObserver' in window) {
     io.observe(el);
   });
 }
+
+/* ================= EXAM DATE GUARD ================= */
+// Drop exam-date options whose DD.MM.YYYY value is already in the past,
+// so a stale HTML deploy can never sell a past date.
+(() => {
+  const sel = document.getElementById('examDate');
+  if (!sel) return;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  Array.from(sel.options).forEach(opt => {
+    const m = opt.value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (!m) return;
+    const d = new Date(+m[3], +m[2] - 1, +m[1]);
+    if (d < today) opt.remove();
+  });
+})();
+
+/* ================= HYPERSPEED LAZY LOAD ================= */
+// The 637KB decorative footer band loads only when the footer approaches
+// the viewport, and never under prefers-reduced-motion (CSS hides it there).
+(() => {
+  const band = document.querySelector('.footer-hyperspeed');
+  if (!band) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const load = () => import('./hyperspeed.bundle.js');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) {
+        io.disconnect();
+        load();
+      }
+    }, { rootMargin: '600px 0px' });
+    io.observe(band);
+  } else {
+    load();
+  }
+})();
 
 /* ================= BIRTH DATE MAX ================= */
 const birthDateEl = document.getElementById('birthDate');

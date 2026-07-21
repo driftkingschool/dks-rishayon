@@ -10,9 +10,9 @@
   --c-light: #faf9f5;
   --c-mid-gray: #b0aea5;
   --c-light-gray: #e8e6dc;
-  --c-accent: #d97757;      /* primary , Claude orange */
+  --c-accent: #d97757;      /* primary - Claude orange */
+  --c-accent-deep: #a04b2d; /* darker accent for small text on light bg (WCAG AA) */
   --c-accent-soft: #f4dccd;
-  --c-blue: #6a9bcc;        /* secondary */
   --c-green: #788c5d;       /* tertiary */
   --c-cream-2: #f5f3eb;
   --c-text: #141413;
@@ -57,9 +57,12 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 body {
@@ -115,7 +118,7 @@ input, textarea, select {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--c-accent);
+  color: var(--c-accent-deep);
   margin-bottom: 16px;
 }
 
@@ -684,7 +687,7 @@ input, textarea, select {
   display: inline-block;
   padding: 4px 12px;
   background: var(--c-light-gray);
-  color: var(--c-text-soft);
+  color: #5d5b55;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -772,7 +775,7 @@ input, textarea, select {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  /* Subtle vignette + edge fade only — let the light rays come through */
+  /* Subtle vignette + edge fade only - let the light rays come through */
   background:
     linear-gradient(180deg, var(--c-dark) 0%, transparent 14%, transparent 86%, var(--c-dark) 100%),
     radial-gradient(60% 70% at 0% 70%, rgba(20, 20, 19, 0.55), transparent 65%);
@@ -950,7 +953,7 @@ input, textarea, select {
   color: var(--c-error);
 }
 
-.status-banner h3 {
+.status-banner h2 {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 22px;
@@ -1067,14 +1070,13 @@ input, textarea, select {
   font-weight: 700;
 }
 
-.price-card-note {
-  font-size: 13px;
-  color: rgba(250, 249, 245, 0.55);
-  line-height: 1.5;
-  position: relative;
-  z-index: 1;
-  padding-top: 16px;
-  border-top: 1px solid rgba(250, 249, 245, 0.08);
+/* honeypot wrap - visually removed, invisible to humans, present for bots */
+.hp-wrap {
+  position: absolute;
+  inset-inline-start: -9999px;
+  top: -9999px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* ===== CATEGORY CARD (fixed value, no select) ===== */
@@ -1279,7 +1281,7 @@ input, textarea, select {
 
 .form-feedback.success {
   background: rgba(120, 140, 93, 0.12);
-  color: var(--c-green);
+  color: #4d5b3e;
   border: 1px solid rgba(120, 140, 93, 0.2);
 }
 
@@ -1426,7 +1428,7 @@ input, textarea, select {
   gap: 8px;
 }
 
-.footer h4 {
+.footer .footer-heading {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 14px;
@@ -1459,7 +1461,7 @@ input, textarea, select {
   padding: 24px 0 32px;
   border-top: 1px solid rgba(250, 249, 245, 0.08);
   font-size: 13px;
-  color: rgba(250, 249, 245, 0.45);
+  color: rgba(250, 249, 245, 0.58);
 }
 
 .footer-sep {
