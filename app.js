@@ -5,8 +5,7 @@
 'use strict';
 
 const CONFIG = {
-  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxlZOG-IpkM85PUbLVKdE4mHWPWdhA10RFzbUMpu9eRywLPqoeE4ZKQTLsZLG1M1AOFiw/exec',
-  price: 790
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxlZOG-IpkM85PUbLVKdE4mHWPWdhA10RFzbUMpu9eRywLPqoeE4ZKQTLsZLG1M1AOFiw/exec'
 };
 
 /* ================= NAV ================= */
@@ -118,7 +117,11 @@ function validate(values) {
       errs.birthDate = 'תאריך לידה לא תקין';
       ok = false;
     } else {
-      const age = (now - d) / (1000 * 60 * 60 * 24 * 365.25);
+      // Calendar-based age: someone whose 14th birthday is today must pass.
+      let age = now.getFullYear() - d.getFullYear();
+      const beforeBirthday = now.getMonth() < d.getMonth() ||
+        (now.getMonth() === d.getMonth() && now.getDate() < d.getDate());
+      if (beforeBirthday) age--;
       if (age < 14) {
         errs.birthDate = 'הקורס מחייב גיל 14 ומעלה';
         ok = false;
@@ -317,9 +320,11 @@ if ('IntersectionObserver' in window) {
 /* ================= BIRTH DATE MAX ================= */
 const birthDateEl = document.getElementById('birthDate');
 if (birthDateEl) {
+  // Local-date formatting: toISOString() is UTC and shifts the day for UTC+ audiences.
+  const fmtLocal = dt => dt.getFullYear() + '-' +
+    String(dt.getMonth() + 1).padStart(2, '0') + '-' +
+    String(dt.getDate()).padStart(2, '0');
   const today = new Date();
-  const max = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
-  birthDateEl.max = max.toISOString().split('T')[0];
-  const min = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
-  birthDateEl.min = min.toISOString().split('T')[0];
+  birthDateEl.max = fmtLocal(new Date(today.getFullYear() - 14, today.getMonth(), today.getDate()));
+  birthDateEl.min = fmtLocal(new Date(today.getFullYear() - 100, today.getMonth(), today.getDate()));
 }
