@@ -62,9 +62,12 @@ function showStatusBanner(status) {
   el.hidden = false;
   el.innerHTML = `<span class="status-icon" aria-hidden="true">${copy.icon}</span><div><h2>${copy.title}</h2><p>${copy.msg}</p></div>`;
   if (status === 'success') {
-    // Hide the form on success
+    // Hide the form, the price card AND the register section header on success -
+    // otherwise the paid customer still sees the register CTA next to the banner.
     document.getElementById('registerForm').style.display = 'none';
     document.querySelector('.price-card').style.display = 'none';
+    const regHead = document.querySelector('.register .section-head');
+    if (regHead) regHead.style.display = 'none';
   }
 }
 
